@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import "../index.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,7 +8,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Logging in with", email, password);
-    // Add login logic here
   };
 
   return (
@@ -32,7 +31,7 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-        <h5>Don@apos t have an account?</h5> <Link to="/signup">Sign up</Link>
+        <h5>Don&#39;t have an account?</h5> <Link to="/signup">Sign up</Link>
       </p>
     </div>
   );
