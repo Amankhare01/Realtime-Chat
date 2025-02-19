@@ -31,7 +31,9 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-        <h5>Don&#39;t have an account?</h5> <Link to="/signup">Sign up</Link>
+        <h5>Don&#39;t have an account?</h5> <Link to="/signup">Sign up</Link><br />
+        <h5>Continue with Google</h5>
+        <Link to="/">Google</Link>
       </p>
     </div>
   );

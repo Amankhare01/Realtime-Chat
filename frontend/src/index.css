@@ -4,11 +4,11 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-image: linear-gradient(120deg, #F2EFE7 0%, #9ACBD0 100%);
 }
 
 .login-container, .signup-container {
-  background: white;
+  background: #f2efe7dd;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,17 +18,18 @@ body {
 
 input {
   display: block;
-  width: 100%;
+  width: 92%;
+  background-color: #f2efe7dd;
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #6c6c6c;
   border-radius: 5px;
 }
 
 button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #2973B2;
   color: white;
   border: none;
   border-radius: 5px;
