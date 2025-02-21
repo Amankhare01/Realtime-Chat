@@ -1,19 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../index.css"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify styles
+import "../index.css";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!", { position: "top-right" });
       return;
     }
-    console.log("Signing up with", email, password);
-    // Add signup logic here
+
+    try {
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Signup successful!", { position: "top-right" });
+      } else {
+        toast.error(`Signup failed: ${data.message}`, { position: "top-right" });
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.", { position: "top-right" });
+    }
   };
 
   return (
@@ -46,6 +68,9 @@ const Signup = () => {
       <p>
         Already have an account? <Link to="/login">Login</Link>
       </p>
+
+      {/* Toast Container (Must be included once in your app) */}
+      <ToastContainer />
     </div>
   );
 };
