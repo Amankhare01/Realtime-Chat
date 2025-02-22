@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = 5000; // Changed port to avoid frontend conflict
+const PORT = 5000;
 
 mongoose.connect(process.env.MONGO)
 .then(() => console.log('Database connected sucessfully'))
