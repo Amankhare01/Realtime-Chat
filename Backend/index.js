@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGO)
 .catch(err => console.error('MongoDB connection error:', err));
 
 
-// User Signup Route
 app.post("/users", async (req, res) => {
     try {
         const { email, password } = req.body;
