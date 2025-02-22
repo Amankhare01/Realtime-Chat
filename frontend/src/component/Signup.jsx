@@ -16,7 +16,6 @@ const Signup = () => {
       toast.error("Passwords do not match!", { position: "top-right" });
       return;
     }
-
     try {
       const response = await fetch("http://localhost:5000/users", {
         method: "POST",
