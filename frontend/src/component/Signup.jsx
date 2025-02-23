@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify styles
 import "../index.css";
@@ -8,6 +9,15 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  //error handling
+
+  const handlesuccess=(CredentialResponse)=>{
+    console.log("Loging successfuly",CredentialResponse);
+  }
+  const handleerror=(error)=>{
+    console.log("login failed",error);
+  }
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -68,7 +78,11 @@ const Signup = () => {
         Already have an account? <Link to="/login">Login</Link>
       </p>
       <p className="login">or</p><br />
-        <p className="login">Continue with Google <Link to="/">Google</Link></p>
+      <GoogleOAuthProvider>
+        <GoogleLogin
+        onSuccess={handlesuccess}
+        onError={handleerror}/>
+      </GoogleOAuthProvider>
       <ToastContainer />
     </div>
   );
