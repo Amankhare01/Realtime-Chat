@@ -30,11 +30,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
-      <p>
-        <h5>Don&#39;t have an account? <Link to="/signup">Sign up</Link></h5><br />
-        <h5>Continue with Google <Link to="/">Google</Link></h5>
-        
-      </p>
+        <p>Don&#39;t have an account? <Link to="/signup">Sign up</Link></p><br />
     </div>
   );
 };

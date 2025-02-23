@@ -67,7 +67,8 @@ const Signup = () => {
       <p>
         Already have an account? <Link to="/login">Login</Link>
       </p>
-
+      <p className="login">or</p><br />
+        <p className="login">Continue with Google <Link to="/">Google</Link></p>
       <ToastContainer />
     </div>
   );
