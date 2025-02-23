@@ -42,7 +42,7 @@ const Signup = () => {
       } else {
         toast.error(`Signup failed: ${data.message}`, { position: "top-right" });
       }
-    } catch (error) {
+    } catch{
       toast.error("An error occurred. Please try again.", { position: "top-right" });
     }
   };
@@ -78,11 +78,13 @@ const Signup = () => {
         Already have an account? <Link to="/login">Login</Link>
       </p>
       <p className="login">or</p><br />
-      <GoogleOAuthProvider>
+      <center>
+      <GoogleOAuthProvider clientId="495911988941-8k5a3ef8o7njd6u678vt6nliifs5ne98.apps.googleusercontent.com">
         <GoogleLogin
         onSuccess={handlesuccess}
         onError={handleerror}/>
       </GoogleOAuthProvider>
+      </center>
       <ToastContainer />
     </div>
   );
