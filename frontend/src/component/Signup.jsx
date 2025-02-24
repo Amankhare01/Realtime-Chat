@@ -93,7 +93,7 @@ const Signup = () => {
       <p>
         Already have an account? <Link to="/login">Login</Link>
       </p>
-      <p className="login">or</p>
+      <p>or</p>
       <center>
         <GoogleOAuthProvider clientId="495911988941-8k5a3ef8o7njd6u678vt6nliifs5ne98.apps.googleusercontent.com">
           <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
