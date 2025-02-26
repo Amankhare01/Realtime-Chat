@@ -16,10 +16,6 @@ return(
 )
 }
 function Mycomponent(){
-    // const [count, setcount]=useState(0);
-    // const increament=()=>{
-    //     setcount(count+1)
-    // };
     useEffect (()=>{
       console.log("component mouted")
     return ()=>{
