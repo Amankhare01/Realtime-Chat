@@ -1,23 +1,34 @@
-import { useState } from "react"
+import {  useEffect, useState } from "react"
 
-const Testh = () => {
-  return (
-    <>
-    <Mycomponent/>
-    </>
-  )
+
+function Testh(){
+  const [rendor, setrendor]=useState(true);
+  useEffect(()=>{
+    setTimeout(()=>{
+      setrendor(false)
+    },10000)
+},[])
+
+return(
+  <>
+  {rendor ? <Mycomponent/> : <div>Aman</div>}
+  </>
+)
 }
 function Mycomponent(){
-    const [count, setcount]=useState(0);
-    const increament=()=>{
-        setcount(count+1)
-    };
-
-    return(
-        <>
-        <center><h1>{count}</h1></center>
-        <button onClick={increament}>click</button>
-        </>
-    )
+    // const [count, setcount]=useState(0);
+    // const increament=()=>{
+    //     setcount(count+1)
+    // };
+    useEffect (()=>{
+      console.log("component mouted")
+    return ()=>{
+      console.log("Domponent unmounted")
+    }
+  },[])
+    
+  return <div>
+    form inside my component
+  </div>
 }
 export default Testh
