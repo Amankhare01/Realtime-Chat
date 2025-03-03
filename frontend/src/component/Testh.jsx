@@ -22,9 +22,9 @@ function Track({ joke }) {
   return (
     <>
     <h2>😂 Refresh and enjoy unlimited jokes 😂</h2>
-      <h1>{joke.type}</h1>
-      <h2>{joke.setup}</h2>
-      <h3>{joke.punchline}</h3>
+      <h1>Category : {joke.type}</h1>
+      <h2>Que : {joke.setup}</h2>
+      <h3>Punchline : {joke.punchline}</h3>
     </>
   );
 }
