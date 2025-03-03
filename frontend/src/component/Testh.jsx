@@ -1,30 +1,32 @@
-import {  useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+const Testh = () => {
+  const [joke, setJoke] = useState(null);
 
-function Testh(){
-  const [rendor, setrendor]=useState(true);
-  useEffect(()=>{
-    setTimeout(()=>{
-      setrendor(false)
-    },10000)
-},[])
+  useEffect(() => {
+    axios.get("https://official-joke-api.appspot.com/random_joke")
+      .then(res => {
+        setJoke(res.data);
+      })
+  }, []);
 
-return(
-  <>
-  {rendor ? <Mycomponent/> : <div>Aman</div>}
-  </>
-)
+  return (
+    <div>
+      {joke ? <Track joke={joke} /> : <p>Loading...</p>}
+    </div>
+  );
+};
+
+function Track({ joke }) {
+  return (
+    <>
+    <h2>😂 Refresh and enjoy unlimited jokes 😂</h2>
+      <h1>{joke.type}</h1>
+      <h2>{joke.setup}</h2>
+      <h3>{joke.punchline}</h3>
+    </>
+  );
 }
-function Mycomponent(){
-    useEffect (()=>{
-      console.log("component mouted")
-    return ()=>{
-      console.log("Domponent unmounted")
-    }
-  },[])
-    
-  return <div>
-    form inside my component
-  </div>
-}
-export default Testh
+
+export default Testh;

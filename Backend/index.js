@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import user from './routes/user.js';  // Import User model
-
+import user from './src/controller/lib/middleware/models/routes/user.js';  // Import User model
+import authRoutes from './src/routes/auth.js'
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -11,6 +11,7 @@ app.use(express.json());
 
 const PORT = 5000;
 
+app.use("/api/auth", authRoutes)
 mongoose.connect(process.env.MONGO)
 .then(() => console.log('Database connected sucessfully'))
 .catch(err => console.error('MongoDB connection error:', err));
