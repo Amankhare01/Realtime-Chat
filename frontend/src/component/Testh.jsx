@@ -5,10 +5,12 @@ const Testh = () => {
   const [joke, setJoke] = useState(null);
 
   useEffect(() => {
-    axios.get("https://official-joke-api.appspot.com/random_joke")
+    setInterval(()=>{
+      axios.get("https://official-joke-api.appspot.com/random_joke")
       .then(res => {
         setJoke(res.data);
       })
+    }, 10000);
   }, []);
 
   return (
