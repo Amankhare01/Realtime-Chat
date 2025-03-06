@@ -11,6 +11,10 @@ const Testh = () => {
         setJoke(res.data);
       })
     }, 10000);
+    axios.get("https://official-joke-api.appspot.com/random_joke")
+      .then(res => {
+        setJoke(res.data);
+      });
   }, []);
 
   return (
