@@ -19,7 +19,7 @@ function useIsOnline() {
     return isOnline;
 }
 
-const Learn = () => {
+const Network = () => {
     const isOnline = useIsOnline();
 
     return (
@@ -29,4 +29,4 @@ const Learn = () => {
     );
 };
 
-export default Learn;
+export default Network;
