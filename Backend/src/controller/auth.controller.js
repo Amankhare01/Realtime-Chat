@@ -1,10 +1,13 @@
-import { generateToken } from '../lib/utils';
-import User from '../models/user.model';
+import { generateToken } from '../lib/utils.js';
+import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 
 export const Signup = async(req,res)=>{
-    const {fullname, email, password}=req.body;
+    const {fullName, email, password}=req.body;
     try{
+        if(!fullName || !email || !password){
+            return res.status(400).json({message: 'Please fill all required fields'})
+        }
         if (password.length <6){
             return res.status(400).json({message: 'Password must contain atleast 6 characters'})
         }
@@ -17,7 +20,7 @@ export const Signup = async(req,res)=>{
         const newUser = new User({
             fullName,
             email,
-            password:hashedpassword
+            password:hashedPassword
         })
 
         if (newUser){
