@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+//network check component
 function useIsOnline() {
     const [isOnline, setIsOnline] = useState(window.navigator.onLine);
 
