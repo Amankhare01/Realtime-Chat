@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+//timer component
 function useInterval(fn, timeout){
     useEffect(()=>{
         setInterval(()=>{
