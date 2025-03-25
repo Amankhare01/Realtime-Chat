@@ -6,8 +6,11 @@ import authRoutes from './src/routes/auth.js';
 import messageRoute from './src/routes/message.route.js';
 dotenv.config();
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
 
 const PORT = process.env.PORT || 3030;
 
