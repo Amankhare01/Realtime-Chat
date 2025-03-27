@@ -9,6 +9,7 @@ import Navbar from './component/Navbar';
 import { useEffect } from 'react';
 import { Useauthstore } from './store/Useauthstore';
 import {Loader} from "lucide-react"
+import Profile from './component/Profile';
 function App() {
   const {authUser, checkAuth, isCheckingAuth} = Useauthstore();
   useEffect(()=>{
@@ -26,6 +27,7 @@ function App() {
         <Navbar/>
         <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/navbar" element={<Navbar />} />
         <Route path="/test" element={<Testh />} />
         <Route path="/Network" element={<Network />} />
