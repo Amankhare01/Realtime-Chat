@@ -10,16 +10,16 @@ const Profile = () => {
   const handleimageupdate = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = async () => {
-      const base64Image = reader.result;
-      setSelectimage(base64Image);
-      await updateProfile({ profilepic: base64Image });
-    };
+  
+    setSelectimage(URL.createObjectURL(file)); // Show preview before upload
+  
+    const formData = new FormData();
+    formData.append("profilepic", file);
+  
+    await updateProfile(formData); // Send FormData
   };
+  
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
