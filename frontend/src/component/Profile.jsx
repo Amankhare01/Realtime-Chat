@@ -3,7 +3,7 @@ import { Useauthstore } from "../store/Useauthstore";
 import { useState, useRef } from "react";
 
 const Profile = () => {
-  const { authUser, isUpdatingProfile, profile: updateProfile } = Useauthstore();
+  const { authUser, isUpdatingProfile, updateProfile } = Useauthstore();
   const [selectimage, setSelectimage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -29,7 +29,7 @@ const Profile = () => {
 
         <div className="relative mt-6">
           <img
-            src={selectimage || authUser?.profilepic || "./default.png"}
+            src={selectimage || authUser.profilepic || "./default.png"}
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover mx-auto border border-gray-300"
           />

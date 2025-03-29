@@ -80,27 +80,42 @@ export const Logout = (req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
-export const updateProfile = async (req, res) =>{
+export const updateProfile = async (req, res) => {
     try {
-        const {profilepic} = req.body;
-        const userId = req.user._id
-
-        if (!profilepic){
-            return res.status(400).json({message: "Profile Pic is required"});
-        }
-
-        const uploadResponse = await cloudinary.uploader.upload(profilepic);
-        const updatedUser = await User.findByIdandUpdate(
-            userId,
-            {profilePic: uploadResponse.secure_url},
-            {new:true}
-        );
-        res.status(201).json(updatedUser)
+      const { profilepic } = req.body;
+      const userId = req.user?._id; // Ensure `req.user` exists
+  
+      if (!profilepic) {
+        return res.status(400).json({ message: "Profile Pic is required" });
+      }
+  
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+  
+      // Upload Image to Cloudinary
+      const uploadResponse = await cloudinary.uploader.upload(profilepic, {
+        folder: "profile_pics",
+        transformation: [{ width: 300, height: 300, crop: "fill" }],
+      });
+  
+      // Update User Profile Pic
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { profilePic: uploadResponse.secure_url },
+        { new: true } // Return updated user
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json(updatedUser);
     } catch (error) {
-        console.log("Error while updating Profile Pic")
-        res.status(401).json({message:"Error while Updating url"})
+      console.error("Error while updating Profile Pic:", error);
+      res.status(500).json({ message: "Error while updating profile picture" });
     }
-}
+  };
 export const checkAuth = (req,res)=>{
     try {
         res.status(200).json({message:"Valid User"})

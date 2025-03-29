@@ -35,14 +35,16 @@ export const Useauthstore = create((set) => ({
       set({ isLoginup: false });
     }
   },
-  profile: async (data) => {
+  updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/auth/login", data);
+      const res = await axiosInstance.put("/auth/update-profile", data);
       set({ authUser: res.data });
-      toast.success("Login Successfully");
+      console.log("Success")
+      toast.success("Profile Updated Successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Update failed");
+      console.log("failed")
     } finally {
       set({ isUpdatingProfile: false });
     }
