@@ -23,7 +23,7 @@ function App() {
     </div>
   )
   return (
-      <div>
+      <div data-theme="pastel">
         <Navbar/>
         <Routes>
         <Route path="/login" element={<Login />} />

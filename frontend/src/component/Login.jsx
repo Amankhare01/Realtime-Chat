@@ -16,7 +16,7 @@ const Login = () => {
     e.preventDefault();
     login({ email, password });
     console.log("Logging in with", email, password);
-    navigate("/profile");
+    navigate("/");
   };
 
   const handlesuccess = (CredentialResponse) => {
