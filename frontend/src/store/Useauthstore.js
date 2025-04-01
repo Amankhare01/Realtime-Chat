@@ -9,6 +9,15 @@ export const Useauthstore = create((set) => ({
   isUpdatingProfile: false,
   isCheckingAuth: true,
 
+  logout: async () => {
+    try {
+      await axiosInstance.post("/auth/logout");
+      set({ authUser: null }); // Properly set Zustand state to trigger re-render
+      localStorage.removeItem("user"); // Remove stored user data
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  },
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
