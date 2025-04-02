@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Signup from './component/Signup';
 import Login from './component/Login';
 import Home from './component/Home';
@@ -27,12 +27,13 @@ function App() {
         <Navbar/>
         <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/navbar" element={<Navbar />} />
         <Route path="/test" element={<Testh />} />
         <Route path="/Network" element={<Network />} />
         <Route path="/timer" element={<Timer />} />
-        <Route path="/" element={authUser ? <Home /> : <Navigate to="/login" />} />
+        {/* <Route path="/" element={authUser ? <Home /> : <Navigate to="/login" />} /> */}
         <Route path="/signup" element={<Signup />} />
       </Routes>
       </div>

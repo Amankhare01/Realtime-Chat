@@ -22,7 +22,7 @@ app.use(cors({
 const PORT = process.env.PORT || 3030;
 
 app.use("/api/auth", authRoutes)
-app.use("/api/message", messageRoute)
+app.use("/api/messages", messageRoute)
 mongoose.connect(process.env.MONGO)
 .then(() => console.log('Database connected sucessfully'))
 .catch(err => console.error('MongoDB connection error:', err));

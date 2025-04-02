@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Useauthstore } from '../store/Useauthstore.js';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,15 +8,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    if (!authUser) {
-      navigate("/login");
-    }
-  }, [authUser, navigate]);
+  // useEffect(() => {
+  //   if (!authUser) {
+  //     navigate("/login");
+  //   }
+  // }, [authUser, navigate]);
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate("/login","Welcome");
   };
 
   return (
