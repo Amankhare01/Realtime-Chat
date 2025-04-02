@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { Usechatstore } from "../store/Usechatstore"
 import SidebarSkeleton from "../skelton/SidebarSkelton";
 import { Users } from "lucide-react";
+import { Useauthstore } from "../store/Useauthstore";
 
 const Sidebar = () => {
     const {getUsers, users, selectedUser, setSelectedUser, isUserLoading}=Usechatstore();
-    const onlineUsers=[];
+    const {onlineUsers}=Useauthstore();
     useEffect(()=>{
         getUsers()
     },[getUsers])
@@ -30,8 +31,8 @@ const Sidebar = () => {
           >
             <div className="relative mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "/default.png"}
-                alt={user.name}
+                src={user.profilepic || "/default.png"}
+                alt={user.fullName}
                 className="size-12 object-cover rounded-full"
               />
               {onlineUsers.includes(user._id) && (

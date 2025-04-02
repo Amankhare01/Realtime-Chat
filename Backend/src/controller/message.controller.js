@@ -1,16 +1,26 @@
 
 import User from "../models/user.model.js";
 
-export const getUsersforSidebar=async(req,res)=>{
+export const getUsersforSidebar = async (req, res) => {
     try {
-        const loggedInUserId=req.user._id;
-        const filtredUsers = await User.find({_id:{$ne: loggedInUserId}}).select("-password");
-        res.status(200).json(filtredUsers)
+        console.log("Request User Object:", req.user); // Debug user object
+
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized - User not found" });
+        }
+
+        const loggedInUserId = req.user._id;
+        console.log("Logged In User ID:", loggedInUserId); // Debug user ID
+
+        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+        res.status(200).json(filteredUsers);
     } catch (error) {
         console.error("Error in getUsersforSidebar", error.message);
-        res.status(500).json("Error in getUserforsidebar");
+        res.status(500).json({ message: "Error in getUsersforSidebar" });
     }
-}
+};
+
+
 export const getMessage = async(req, res)=>{
     try {
         const {id:userTochatId}= req.params;

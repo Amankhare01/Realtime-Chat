@@ -12,15 +12,18 @@ export const Usechatstore = create((set)=>({
 
 
 
-    getUsers: async()=>{
-        set({isUserLoading:true});
+    getUsers: async () => {
+        set({ isUserLoading: true });
         try {
+            console.log(" Fetching Users...");
             const res = await axiosInstance.get("/messages/users");
-            set({users: res.data});
+            console.log("Response:", res.data);
+            set({ users: res.data });
         } catch (error) {
-            toast.error(error.response.data.message);
-        } finally{
-            set({isUserLoading:false});
+            console.error("Axios Error:", error.response ? error.response.data : error.message);
+            toast.error(error.response ? error.response.data.message : "An error occurred");
+        } finally {
+            set({ isUserLoading: false });
         }
     },
 
