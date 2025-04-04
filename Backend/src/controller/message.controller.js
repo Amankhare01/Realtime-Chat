@@ -1,6 +1,7 @@
 
+import Message from "../middleware/message.js";
 import User from "../models/user.model.js";
-
+import cloudinary from "../lib/cloudinary.js";
 export const getUsersforSidebar = async (req, res) => {
     try {
         console.log("Request User Object:", req.user); // Debug user object
@@ -26,7 +27,7 @@ export const getMessage = async(req, res)=>{
         const {id:userTochatId}= req.params;
         const myId = req.user._id;  
 
-        const messages = await message.find({
+        const messages = await Message.find({
             $or: [
                 {senderId: myId, receiverId:userTochatId},
                 {senderId: userTochatId, receiverId:myId},
@@ -39,15 +40,18 @@ export const getMessage = async(req, res)=>{
         res.status(500).json("Error in getUserforsidebar");
     }
 }
-export const sendMessage = async(req, res)=>{
+export const sendMessage = async (req, res) => {
     try {
-        const {text, image} = req.body;
-        const {id:receiverId} = req.params;
-        const senderId = req.user._id;
+        const { text, image } = req.body;
+        const { id: receiverId } = req.params;
+        const senderId = req.user?._id; // Ensure req.user exists
 
+        if (!senderId || !receiverId) {
+            return res.status(400).json({ message: "Sender or Receiver ID is missing" });
+        }
 
-        let imageUrl;
-        if (image){
+        let imageUrl = "";
+        if (image) {
             const uploadResponse = await cloudinary.uploader.upload(image);
             imageUrl = uploadResponse.secure_url;
         }
@@ -58,11 +62,12 @@ export const sendMessage = async(req, res)=>{
             text,
             image: imageUrl,
         });
-        await newMessage.save();
 
-        res.status(201).json(newMessage)
+        await newMessage.save();
+        res.status(201).json(newMessage);
+
     } catch (error) {
         console.log("Error while sending message", error.message);
-        res.status(500).json({message:"Internal error while sending message"});
+        res.status(500).json({ message: "Internal error while sending message" });
     }
-}
+};
