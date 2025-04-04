@@ -6,7 +6,7 @@ import MessageSkeleton from "../skelton/MessageSkeleton";
 import { Useauthstore } from "../store/Useauthstore";
 
 const Chatcontainer = () => {
-  const { message,getMessages, isMessageLoading, selectedUser}=Usechatstore();
+  const { messages,getMessages, isMessageLoading, selectedUser}=Usechatstore();
   const {authUser}=Useauthstore();
   useEffect(()=>{
     getMessages(selectedUser._id)
@@ -24,8 +24,8 @@ const Chatcontainer = () => {
   <ChatHeader />
 
   <div className="flex-1 overflow-y-auto p-4 space-y-4">
-    {Array.isArray(message) &&
-      message.map((msg) => (
+    {Array.isArray(messages) &&
+      messages.map((msg) => (
         <div
           key={msg._id}
           className={`flex items-end space-x-2 ${
