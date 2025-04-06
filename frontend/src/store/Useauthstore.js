@@ -2,16 +2,19 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-toastify";
 import { persist, createJSONStorage } from "zustand/middleware";
+import {io} from "socket.io-client";
 
+const base_url = 'https://localhost:4000'
 export const Useauthstore = create(
   persist(
-    (set) => ({
+    (set,get) => ({
       authUser: null,
       isSigningup: false,
       isLoginup: false,
       isUpdatingProfile: false,
       isCheckingAuth: true,
       onlineUsers: [],
+      socket:[],
 
       setAuthUser: (user) => set({ authUser: user }),
 
@@ -31,6 +34,7 @@ export const Useauthstore = create(
       
           // Remove manually from localStorage
           localStorage.removeItem("auth-storage");
+          get().disconnectSocket()
         } catch (error) {
           console.log("Logout error:", error);
         }
@@ -54,6 +58,7 @@ export const Useauthstore = create(
           const res = await axiosInstance.post("/auth/login", data);
           set({ authUser: res.data });
           toast.success("Login Successfully");
+          get().connectSocket()
         } catch (error) {
           toast.error(error.response?.data?.message || "Login failed");
         } finally {
@@ -76,6 +81,14 @@ export const Useauthstore = create(
           set({ isUpdatingProfile: false });
         }
       },
+      connectSocket:()=>{
+        const {authUser}= get()
+        if(!authUser || get().socket?.connected) return;
+
+        const socket = io(base_url)
+        socket.connect()
+      },
+      disconnectSocket:()=>{}
     }),
     {
       name: "auth-storage",

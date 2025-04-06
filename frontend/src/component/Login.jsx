@@ -39,22 +39,25 @@ const Login = () => {
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-center text-gray-700">Login</h1>
         <form onSubmit={handleLogin} className="mt-4 space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <input
+  type="email"
+  name="email" // <-- Add this
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  required
+  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
+<input
+  type="password"
+  name="password" // <-- Add this
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
+
           <button
             type="submit"
             disabled={isLoginup}
