@@ -18,13 +18,24 @@ export const Useauthstore = create(
       logout: async () => {
         try {
           await axiosInstance.post("/auth/logout");
-          set({ authUser: null }); // Clear Zustand state
-          localStorage.removeItem("auth-storage"); // Remove persisted auth state
+      
+          // Clear the Zustand store and remove persisted data
+          set({
+            authUser: null,
+            isSigningup: false,
+            isLoginup: false,
+            isUpdatingProfile: false,
+            isCheckingAuth: false,
+            onlineUsers: [],
+          });
+      
+          // Remove manually from localStorage
+          localStorage.removeItem("auth-storage");
         } catch (error) {
           console.log("Logout error:", error);
         }
       },
-
+      
       checkAuth: async () => {
         try {
           const res = await axiosInstance.get("/auth/check");

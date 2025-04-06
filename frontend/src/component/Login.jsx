@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { ToastContainer } from "react-toastify";
@@ -9,16 +9,23 @@ import { Loader2 } from "lucide-react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoginup } = Useauthstore();
+  const { authUser, login, isLoginup } = Useauthstore();
   const navigate = useNavigate();
-
-  const handleLogin = (e) => {
+  useEffect(() => {
+    if (authUser) {
+      navigate("/"); // redirect to home after login
+    }
+  }, [authUser, navigate]);
+  const handleLogin = async (e) => {
     e.preventDefault();
-    login({ email, password });
-    console.log("Logging in with", email, password);
-    navigate("/");
+    const data = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
+    await login(data); // <-- wait for login to complete
   };
 
+  handleLogin
   const handlesuccess = (CredentialResponse) => {
     console.log("Login successful", CredentialResponse);
   };

@@ -73,15 +73,21 @@ export const Login = async(req,res)=>{
         res.status(500).json({message:"Internal Server error"});
     }
 }
-export const Logout = (req,res)=>{
-    try{
-        res.cookie("jwt","",{maxAge:0});
-        res.status(200).json({message:"Logout Succesfully"});
-    }catch{
-        console.log("Internal error", err)
-        res.status(500).json({message:"Internal server error"})
+export const Logout = (req, res) => {
+    try {
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "None", // or "Lax" depending on your frontend-backend setup
+        secure: true,     // true if using HTTPS
+      });
+  
+      return res.status(200).json({ message: "Logout Successfully" });
+    } catch (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ message: "Internal server error" });
     }
-}
+  };
+  
 // export const updateProfile = async (req, res) => {
 //     try {
 //       const { profilepic } = req.body;
