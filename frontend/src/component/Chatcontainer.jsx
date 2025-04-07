@@ -6,11 +6,14 @@ import MessageSkeleton from "../skelton/MessageSkeleton";
 import { Useauthstore } from "../store/Useauthstore";
 
 const Chatcontainer = () => {
-  const { messages,getMessages, isMessageLoading, selectedUser}=Usechatstore();
+  const { messages,getMessages, isMessageLoading, selectedUser,SubscribeToMessage, UnsubscribeToMessage}=Usechatstore();
+  UnsubscribeToMessage
   const {authUser}=Useauthstore();
   useEffect(()=>{
     getMessages(selectedUser._id)
-  },[selectedUser._id, getMessages])
+    SubscribeToMessage();
+    return()=> UnsubscribeToMessage();
+  },[selectedUser._id, getMessages,SubscribeToMessage,UnsubscribeToMessage])
 
   if(isMessageLoading) return (
   <div className="flex-1 flex flex-col overflow-auto">

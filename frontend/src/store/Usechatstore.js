@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
+import { Useauthstore } from "./Useauthstore";
 
 export const Usechatstore = create((set, get) => ({
     messages: [],  // ✅ Use `messages` consistently
@@ -63,7 +64,22 @@ export const Usechatstore = create((set, get) => ({
             set({ isMessageLoading: false });
         }
     },
+    SubscribeToMessage:()=>{
+        const {selectedUser}=get();
+        if (!selectedUser) return;
 
+        const socket = Useauthstore.getState().socket;
+
+        socket.on("newMessage", (newMessage)=>{
+            set({
+                messages: [...get().messages, newMessage],
+            })
+        })
+    },
+    UnsubscribeToMessage:()=>{
+        const socket = Useauthstore.getState().socket;
+        socket.off("newMessage");
+    },
     // Set Selected User
     setSelectedUser: (selectedUser) => {
         set({ selectedUser, messages: [] });  // ✅ Reset messages when switching users

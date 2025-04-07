@@ -2,9 +2,9 @@
 import Message from "../middleware/message.js";
 import User from "../models/user.model.js";
 import cloudinary from "../lib/cloudinary.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 export const getUsersforSidebar = async (req, res) => {
     try {
-        console.log("Request User Object:", req.user); // Debug user object
 
         if (!req.user) {
             return res.status(401).json({ message: "Unauthorized - User not found" });
@@ -64,6 +64,10 @@ export const sendMessage = async (req, res) => {
         });
 
         await newMessage.save();
+        const ReceiverSocketId = getReceiverSocketId(receiverId);   
+        if(ReceiverSocketId){
+            io.to(ReceiverSocketId).emit("newMessage", newMessage);
+        }
         res.status(201).json(newMessage);
 
     } catch (error) {

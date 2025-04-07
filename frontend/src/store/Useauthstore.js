@@ -2,27 +2,25 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-toastify";
 import { persist, createJSONStorage } from "zustand/middleware";
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
-const base_url = 'https://localhost:4000'
 export const Useauthstore = create(
   persist(
-    (set,get) => ({
+    (set, get) => ({
       authUser: null,
       isSigningup: false,
       isLoginup: false,
       isUpdatingProfile: false,
       isCheckingAuth: true,
       onlineUsers: [],
-      socket:[],
+      socket: null,
 
       setAuthUser: (user) => set({ authUser: user }),
 
       logout: async () => {
         try {
           await axiosInstance.post("/auth/logout");
-      
-          // Clear the Zustand store and remove persisted data
+
           set({
             authUser: null,
             isSigningup: false,
@@ -31,15 +29,14 @@ export const Useauthstore = create(
             isCheckingAuth: false,
             onlineUsers: [],
           });
-      
-          // Remove manually from localStorage
+
           localStorage.removeItem("auth-storage");
-          get().disconnectSocket()
+          get().disconnectSocket();
         } catch (error) {
           console.log("Logout error:", error);
         }
       },
-      
+
       checkAuth: async () => {
         try {
           const res = await axiosInstance.get("/auth/check");
@@ -57,8 +54,12 @@ export const Useauthstore = create(
         try {
           const res = await axiosInstance.post("/auth/login", data);
           set({ authUser: res.data });
+
           toast.success("Login Successfully");
-          get().connectSocket()
+
+          setTimeout(() => {
+            get().connectSocket();
+          }, 100);
         } catch (error) {
           toast.error(error.response?.data?.message || "Login failed");
         } finally {
@@ -81,18 +82,48 @@ export const Useauthstore = create(
           set({ isUpdatingProfile: false });
         }
       },
-      connectSocket:()=>{
-        const {authUser}= get()
-        if(!authUser || get().socket?.connected) return;
 
-        const socket = io(base_url)
-        socket.connect()
+      connectSocket: () => {
+        const { authUser } = get();
+        const existingSocket = get().socket;
+
+        if (!authUser || existingSocket?.connected) return;
+
+        const socket = io("http://localhost:4000", {
+          withCredentials: true,
+          query: {
+            userId: authUser._id,
+          },
+        });
+
+        socket.on("getOnlineUsers", (userIds) => {
+          set({ onlineUsers: userIds });
+        });
+
+        set({ socket });
       },
-      disconnectSocket:()=>{}
+
+      disconnectSocket: () => {
+        const socket = get().socket;
+        if (socket && socket.connected) {
+          socket.disconnect();
+          set({ socket: null });
+          console.log("Socket disconnected manually");
+        }
+      },
     }),
     {
       name: "auth-storage",
-      storage: createJSONStorage(() => localStorage), // Ensuring JSON serialization
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        authUser: state.authUser,
+        isSigningup: state.isSigningup,
+        isLoginup: state.isLoginup,
+        isUpdatingProfile: state.isUpdatingProfile,
+        isCheckingAuth: state.isCheckingAuth,
+        onlineUsers: state.onlineUsers,
+        // socket is intentionally excluded
+      }),
     }
   )
 );

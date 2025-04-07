@@ -12,8 +12,9 @@ import { Loader } from 'lucide-react';
 import Profile from './component/Profile';
 
 function App() {
-  const { authUser, checkAuth, isCheckingAuth } = Useauthstore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = Useauthstore();
 
+  console.log({onlineUsers});
   useEffect(() => {
     checkAuth(); // Don't await, Zustand will handle the state update
   }, [checkAuth]);
