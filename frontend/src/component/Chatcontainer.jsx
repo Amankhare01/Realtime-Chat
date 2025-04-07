@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Usechatstore } from "../store/Usechatstore"
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
@@ -9,6 +9,7 @@ const Chatcontainer = () => {
   const { messages,getMessages, isMessageLoading, selectedUser,SubscribeToMessage, UnsubscribeToMessage}=Usechatstore();
   UnsubscribeToMessage
   const {authUser}=Useauthstore();
+  const messageEndRef = useRef();
   useEffect(()=>{
     getMessages(selectedUser._id)
     SubscribeToMessage();
