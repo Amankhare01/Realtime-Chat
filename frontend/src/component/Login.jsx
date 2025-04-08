@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { ToastContainer } from "react-toastify";
 import "../index.css";
@@ -74,7 +74,7 @@ const Login = () => {
           </button>
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">
-          Don&#39;t have an account? <Link to="/signup" className="text-blue-500 hover:underline">Sign up</Link>
+          Don&#39;t have an account? <a href="/signup" className="text-blue-500 hover:underline">Sign up</a>
         </p>
         <p className="mt-2 text-center">or</p>
         <div className="mt-4 flex justify-center">

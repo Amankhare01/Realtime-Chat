@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
-import http from "http";
 
 let io;
+
+const UserSocketMap = {};
 
 const setupSocket = (app, server) => {
   io = new Server(server, {
@@ -11,22 +12,28 @@ const setupSocket = (app, server) => {
     },
   });
 
-  const UserSocketMap = {};
   io.on("connection", (socket) => {
     console.log("User Connected:", socket.id);
-    const userId = socket.handshake.query.userId
-    if(userId) UserSocketMap[userId] = socket.id
 
-    io.emit("getOnlineUsers", Object.keys(UserSocketMap))
+    const userId = socket.handshake.query.userId;
+    if (userId) {
+      UserSocketMap[userId] = socket.id;
+    }
+
+    io.emit("getOnlineUsers", Object.keys(UserSocketMap));
+
     socket.on("disconnect", () => {
       console.log("User Disconnected:", socket.id);
+      if (userId) {
         delete UserSocketMap[userId];
-        io.emit("getOnlineUsers", Object.keys(UserSocketMap))
+      }
+      io.emit("getOnlineUsers", Object.keys(UserSocketMap));
     });
   });
 };
-function getReceiverSocketId(userId){
+
+function getReceiverSocketId(userId) {
   return UserSocketMap[userId];
 }
 
-export { setupSocket, io, getReceiverSocketId };
+export { setupSocket, getReceiverSocketId, io };

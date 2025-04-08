@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Usechatstore } from "../store/Usechatstore"
+import { Usechatstore } from "../store/Usechatstore";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "../skelton/MessageSkeleton";
@@ -8,14 +8,20 @@ import { Useauthstore } from "../store/Useauthstore";
 const Chatcontainer = () => {
   const { messages,getMessages, isMessageLoading, selectedUser,SubscribeToMessage, UnsubscribeToMessage}=Usechatstore();
   UnsubscribeToMessage
-  const {authUser}=Useauthstore();
-  const messageEndRef = useRef();
+  const {authUser} = Useauthstore();
+  const messageEndRef = useRef(null);
   useEffect(()=>{
     getMessages(selectedUser._id)
     SubscribeToMessage();
     return()=> UnsubscribeToMessage();
   },[selectedUser._id, getMessages,SubscribeToMessage,UnsubscribeToMessage])
 
+  useEffect(()=>{
+    if (messageEndRef.current && messages){
+      messageEndRef.current.scrollIntoView({behavior:"smooth"});
+    }
+  },[messages]);
+  
   if(isMessageLoading) return (
   <div className="flex-1 flex flex-col overflow-auto">
     <ChatHeader/>
@@ -35,6 +41,7 @@ const Chatcontainer = () => {
           className={`flex items-end space-x-2 ${
             msg.senderId === authUser._id ? "justify-end" : "justify-start"
           }`}
+          ref={messageEndRef}
         >
           {msg.senderId !== authUser._id && (
             <div className="w-10 h-10 rounded-full border overflow-hidden">

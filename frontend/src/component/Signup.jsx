@@ -6,24 +6,25 @@ import { ToastContainer, toast } from "react-toastify";
 import {EyeOff, Eye} from "lucide-react"
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify styles
 import "../index.css";
-import { Useauthstore } from "../store/Useauthstore";
+// import { Useauthstore } from "../store/Useauthstore";
 
 const Signup = () => {
   const [showpassword, setShowpassword] = useState(false);
-  const [formdata, setFormdata]=useState({
-    fullName: "",
-    email: "",
-    password: "",
-  })
+  // const [formdata, setFormdata]=useState({
+  //   fullName: "",
+  //   email: "",
+  //   password: "",
+  // })
   // const [singup, setSignup]=Useauthstore();
 
-  const validateform=()=>{
-    //jai shree ram"""
-  }
-  const handleSubmit =  (e)=>{
-    e.preventDefault()
-  }
+  // const validateform=()=>{
+  //   //jai shree ram"""
+  // }
+  // const handleSubmit =  (e)=>{
+  //   e.preventDefault()
+  // }
   const [email, setEmail] = useState("");
+  const [fullName, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Signup = () => {
 
     // Redirect to home after 2 seconds
     setTimeout(() => {
-      navigate("/home");
+      navigate("/");
     }, 2000);
   };
 
@@ -58,7 +59,7 @@ const Signup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({fullName, email, password }),
       });
 
       const data = await response.json();
@@ -85,6 +86,14 @@ const Signup = () => {
   <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
     <h2 className="text-2xl font-semibold text-center text-gray-700">Sign Up</h2>
     <form onSubmit={handleSignup} className="mt-4 space-y-4">
+      <input
+        type="text"
+        placeholder="Full Name"
+        value={fullName}
+        onChange={(e) => setName(e.target.value)}
+        required
+        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
       <input
         type="email"
         placeholder="Email"
