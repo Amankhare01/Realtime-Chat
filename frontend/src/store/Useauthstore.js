@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-toastify";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { io } from "socket.io-client";
-const baseURL = import.meta.env.MODE === "development" ? "http://localhost:4000" : "/"
+const baseURL = import.meta.env.MODE === "development" ? "https://realtime-chat-1-ykyv.onrender.com" : "/"
 export const Useauthstore = create(
   persist(
     (set, get) => ({
