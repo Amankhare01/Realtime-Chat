@@ -22,10 +22,16 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://realtime-chat-1-ykyv.onrender.com/",
+];
+
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+  origin: allowedOrigins,
+  credentials: true,
 }));
+
 
 // Routes
 app.use("/api/auth", authRoutes);
