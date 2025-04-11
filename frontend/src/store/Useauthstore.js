@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-toastify";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { io } from "socket.io-client";
-
+const baseURL = import.meta.env.MODE === "development" ? "http://localhost:4000" : "/"
 export const Useauthstore = create(
   persist(
     (set, get) => ({
@@ -89,7 +89,7 @@ export const Useauthstore = create(
 
         if (!authUser || existingSocket?.connected) return;
 
-        const socket = io("http://localhost:4000", {
+        const socket = io(import.meta.env.MODE === "development" ? "http://localhost:4000" : "/", {
           withCredentials: true,
           query: {
             userId: authUser._id,

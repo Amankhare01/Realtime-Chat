@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { setupSocket } from './src/lib/socket.js'; // updated import
 import http from 'http';
-
+import path from 'path';
 dotenv.config();
 
 const app = express(); // ✅ single app instance
@@ -30,6 +30,14 @@ app.use(cors({
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoute);
+
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")));
+
+  app.get("*", (req,res)=>{
+      res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  })
+}
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO)
