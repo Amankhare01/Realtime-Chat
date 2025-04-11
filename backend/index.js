@@ -46,6 +46,7 @@ if(process.env.NODE_ENV === "production"){
       res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   })
 }
+console.log("Serving frontend from: ", path.join(__dirname, "../frontend/dist"));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO)
