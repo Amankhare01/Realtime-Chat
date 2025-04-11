@@ -89,7 +89,7 @@ export const Useauthstore = create(
 
         if (!authUser || existingSocket?.connected) return;
 
-        const socket = io(import.meta.env.MODE === "development" ? "http://localhost:4000" : "/", {
+        const socket = io(baseURL, {
           withCredentials: true,
           query: {
             userId: authUser._id,
