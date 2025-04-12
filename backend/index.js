@@ -25,8 +25,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://realtime-chat-1-ykyv.onrender.com/",
+"https://realtimechatss.netlify.app"
 ];
 
 app.use(cors({
