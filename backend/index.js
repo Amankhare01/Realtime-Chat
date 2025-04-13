@@ -24,12 +24,13 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 
-const allowedOrigins = [
-"https://realtimechatss.netlify.app"
-];
+// const allowedOrigins = [
+//   "http://localhost:5173" ,
+//   "https://realtimechatss.netlify.app"
+// ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: "http://localhost:5173",
   credentials: true,
 }));
 
@@ -38,16 +39,16 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoute);
 
-// if(process.env.NODE_ENV === "production"){
-//   app.use(express.static(path.join(__dirname,"../frontend/dist")));
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
-//   app.get("*", (req,res)=>{
-//       res.sendFile(path.join(__dirname, "https://realtimechatss.netlify.app"));
-//   })
-// }
-app.get("*", (req,res)=>{
-  res.sendFile(path.join(__dirname, "https://realtimechatss.netlify.app"));
-})
+  app.get("*", (req,res)=>{
+      res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  })
+}
+// app.get("*", (req,res)=>{
+//   res.sendFile(path.join(__dirname, "https://realtimechatss.netlify.app"));
+// })
 
 console.log("Serving frontend from: ", path.join(__dirname, "../frontend/dist"));
 
