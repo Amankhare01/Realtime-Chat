@@ -39,10 +39,7 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
-
-
-console.log("Serving frontend from: ", path.join(__dirname, "../frontend/dist"));
-
+dotenv.config({ path: path.resolve('./backend/.env') });
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO)
   .then(() => console.log('Database connected successfully'))
@@ -53,5 +50,5 @@ setupSocket(app, server);
 
 const PORT = process.env.PORT || 3030;
 server.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
