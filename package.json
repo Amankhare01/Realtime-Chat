@@ -1,10 +1,10 @@
 {
   "name": "realchat",
   "version": "1.0.0",
-  "scripts": {
-    "build": "npm install --prefix frontend && npm run build --prefix frontend",
-    "start": "nodemon backend/index.js"
-  },
+ "scripts": {
+   "build": "npm install --prefix frontend && npm run build --prefix frontend",
+   "start": "nodemon backend/index.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
