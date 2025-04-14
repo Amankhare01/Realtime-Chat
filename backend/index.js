@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -13,8 +12,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 dotenv.config();
 
-const app = express(); // ✅ single app instance
-const server = http.createServer(app); // bind server here
+const app = express();
+const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Middlewares
@@ -24,10 +23,6 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 
-// const allowedOrigins = [
-//   "http://localhost:5173" ,
-//   "https://realtimechatss.netlify.app"
-// ];
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -45,9 +40,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 
-// app.get("*", (req,res)=>{
-//   res.sendFile(path.join(__dirname, "https://realtimechatss.netlify.app"));
-// })
 
 console.log("Serving frontend from: ", path.join(__dirname, "../frontend/dist"));
 
