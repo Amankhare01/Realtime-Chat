@@ -9,7 +9,9 @@ export const Usechatstore = create((set, get) => ({
     selectedUser: null,
     isUserLoading: false,
     isMessageLoading: false,
+    isSidebarOpen: true, // 🔥 new state
 
+    setSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }), // 🔥 new setter
     // Fetch Users for Chat Sidebar
     getUsers: async () => {
         set({ isUserLoading: true });

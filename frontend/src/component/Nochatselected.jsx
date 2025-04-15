@@ -1,9 +1,9 @@
 const Nochatselected = () => {
   return (
-    <div>
-      <h1>No Chat</h1>
+    <div className="hidden lg:flex flex-1 items-center justify-center">
+      <h1 className="text-xl text-zinc-500">No Chat</h1>
     </div>
-  )
-}
+  );
+};
 
-export default Nochatselected
+export default Nochatselected;
