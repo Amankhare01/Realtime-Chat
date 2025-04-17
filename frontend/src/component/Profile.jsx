@@ -64,8 +64,9 @@ const Profile = () => {
         <p className="mt-4 text-lg font-medium text-gray-800">
           {authUser?.fullName || "User fullName"}
         </p>
-        <p className="mt-4 text-lg font-medium text-gray-800">
-          {authUser?.email || "User Email"}
+        <p className="mt-1 text-md text-gray-600">{authUser?.email || "User Email"}</p>
+        <p className="mt-2 text-sm text-gray-500">
+          User ID: <span className="font-semibold">{authUser?._id || "N/A"}</span>
         </p>
       </div>
     </div>
