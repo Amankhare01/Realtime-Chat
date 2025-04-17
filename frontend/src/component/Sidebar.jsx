@@ -32,6 +32,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`
+        pt-10
         h-full border-r border-base-300 flex flex-col transition-all duration-200
         bg-base-100 absolute z-10 lg:static
         ${isSidebarOpen ? "w-full" : "w-0"} 

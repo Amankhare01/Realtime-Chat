@@ -8,7 +8,7 @@ const ChatHeader = () => {
 
   const handleBack = () => {
     setSelectedUser(null);
-    setSidebarOpen(true); // Show sidebar again on back
+    setSidebarOpen(true);
   };
 
   return (

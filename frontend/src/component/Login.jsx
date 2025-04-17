@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (authUser) {
-      navigate("/"); // redirect to home after login
+      navigate("/");
     }
   }, [authUser, navigate]);
   const handleLogin = async (e) => {
@@ -22,7 +22,7 @@ const Login = () => {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    await login(data); // <-- wait for login to complete
+    await login(data);
   };
 
   handleLogin

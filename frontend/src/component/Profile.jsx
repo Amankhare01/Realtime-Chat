@@ -1,29 +1,41 @@
 import { Camera } from "lucide-react";
 import { Useauthstore } from "../store/Useauthstore";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { authUser, isUpdatingProfile, updateProfile } = Useauthstore();
   const [selectimage, setSelectimage] = useState(null);
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const handleimageupdate = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     setSelectimage(URL.createObjectURL(file)); // Show preview before upload
-  
+
     const formData = new FormData();
     formData.append("profilepic", file);
-  
+
     await updateProfile(formData); // Send FormData
   };
-  
-  
+
+  const handleBack = () => {
+    navigate("/");
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-96 text-center">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-96 text-center relative">
+        {/* Back button inside the profile card */}
+        <button
+          onClick={handleBack}
+          className="absolute top-4 left-4 z-50 bg-white px-4 py-2 rounded-md shadow-md border border-gray-300 text-gray-800 hover:bg-gray-200 transition text-sm font-medium"
+        >
+          ← Back
+        </button>
+
         <h1 className="text-2xl font-semibold mb-4">Profile</h1>
         <h2 className="text-gray-600">Your Profile Information</h2>
 

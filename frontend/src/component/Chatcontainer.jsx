@@ -30,7 +30,7 @@ const Chatcontainer = () => {
   </div>
   )
   return (
-<div className="flex-1 flex flex-col overflow-auto">
+<div className="flex-1 flex flex-col overflow-auto pt-9">
   <ChatHeader />
 
   <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -66,10 +66,8 @@ const Chatcontainer = () => {
               />
             )}
 
-            {/* Text */}
             {msg.text && <p className="text-sm">{msg.text}</p>}
 
-            {/* Timestamp */}
             <div className="text-xs text-gray-400 mt-1 text-right">
               {new Date(msg.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -78,7 +76,6 @@ const Chatcontainer = () => {
             </div>
           </div>
 
-          {/* Avatar (Only for sent messages) */}
           {msg.senderId === authUser._id && (
             <div className="w-10 h-10 rounded-full border overflow-hidden">
               <img

@@ -46,7 +46,10 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="w-full fixed bottom-0 left-0 right-0 bg-base-100 border-t border-zinc-300 z-20">
+    <div className="w-full bg-base-100 border-t border-zinc-300
+  fixed bottom-0 left-0 right-0 z-20
+  md:static md:z-0">
+
       {imagePreview && (
         <div className="p-4 pt-2 flex items-center gap-2">
           <div className="relative">
@@ -69,12 +72,12 @@ const MessageInput = () => {
 
       <form
         onSubmit={handleSendMessage}
-        className="flex items-center gap-2 px-4 py-3 border-t border-base-300"
+        className="flex items-center gap-2 px-4 py-3 border-t border-base-300  mx-auto"
       >
         <div className="flex-1 flex items-center gap-2">
           <input
             type="text"
-            className="w-full input input-bordered input-sm sm:input-md  outline-1 outline-zinc-300 focus:outline-2 focus:outline-emerald-500 rounded-lg"
+            className="w-full input input-bordered input-sm sm:input-md outline-1 outline-zinc-300 focus:outline-2 focus:outline-emerald-500 rounded-lg"
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -110,4 +113,3 @@ const MessageInput = () => {
 };
 
 export default MessageInput;
-  
