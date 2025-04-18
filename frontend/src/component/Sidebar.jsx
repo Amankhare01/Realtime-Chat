@@ -46,7 +46,7 @@ const Sidebar = () => {
         <span className="font-medium">Contact</span>
       </div>
 
-      <div className="overflow-y-auto w-full py-3 flex-1">
+      <div className="overflow-y-auto w-full py-3 flex-1 sm:p-4 lg:p-0">
         {users.map((user) => (
           <button
             key={user._id}

@@ -51,7 +51,7 @@ export const Useauthstore = create(
             set({ authUser: null });
           }
         } catch (err) {
-          set({ authUser: null });
+          set({ authUser: null, err });
         } finally {
           set({ isCheckingAuth: false });
         }
