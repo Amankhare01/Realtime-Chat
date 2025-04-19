@@ -4,7 +4,7 @@ import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.post('/login',protectRoute, Login)
+router.post('/login', Login)
 
 router.post('/signup',Signup)
 
@@ -12,5 +12,5 @@ router.post('/Logout', Logout)
 
 router.put('/update-profile',protectRoute,upload, updateProfile)
 
-router.get('/check', checkAuth)
+router.get('/check',protectRoute, checkAuth)
 export default router;
