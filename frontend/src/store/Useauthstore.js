@@ -42,14 +42,11 @@ export const Useauthstore = create(
           const res = await fetch(`${baseURL}auth/check`, {
             credentials: "include",
           });
-      
+          
+          if (!res.ok) throw new Error("Auth check failed");
+          
           const result = await res.json();
-      
-          if (res.ok) {
-            set({ authUser: result.user });
-          } else {
-            set({ authUser: null });
-          }
+          set({ authUser: result.user }); // Make sure this matches backend response
         } catch (err) {
           set({ authUser: null, err });
         } finally {
