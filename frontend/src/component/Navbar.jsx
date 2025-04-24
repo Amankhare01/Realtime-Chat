@@ -1,18 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Useauthstore } from "../store/Useauthstore"; // Adjust path if needed
-
+import { Search, X } from "lucide-react";
+import { Useauthstore } from "../store/Useauthstore";
+import { axiosInstance } from "../lib/axios";
+import { Usechatstore } from "../store/Usechatstore"; // make sure you import this
 const Navbar = () => {
   const { authUser, logout, isCheckingAuth } = Useauthstore();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
 
-  // useEffect(() => {
-  //   if (!isCheckingAuth && !authUser) {
-  //     navigate("/login");
-  //   }
-  // }, [authUser, isCheckingAuth, navigate]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      if (!search.trim()) {
+        setResults([]);
+        return;
+      }
   
+      try {
+        const res = await axiosInstance.get(`/auth/search?userId=${search}`);
+        console.log("Search API Response:", res.data); // ✅ Log here
+        setResults(res.data);
+      } catch (error) {
+        console.error("Search error:", error.message);
+      }
+    };
+  
+    const delayDebounce = setTimeout(fetchUsers, 400);
+    return () => clearTimeout(delayDebounce);
+  }, [search]);
+
+
+const { setSelectedUser } = Usechatstore();
+
+const handleChat = (user) => {
+  setSelectedUser(user);
+  setShowSearch(false);
+  setSearch("");
+  navigate("/"); // redirect to home/chatbox
+};
 
   const handleLogout = async () => {
     await logout();
@@ -41,7 +69,72 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex items-center space-x-3 md:space-x-4 md:order-2 relative">
+          {authUser && (
+            <>
+              {showSearch ? (
+                <div className="relative">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Search by name or ID..."
+                      autoFocus
+                      className="w-40 sm:w-60 px-3 py-1.5 border text-gray-900 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <button
+                      onClick={() => {
+                        setShowSearch(false);
+                        setSearch("");
+                        setResults([]);
+                      }}
+                      className="text-gray-500 hover:text-red-500"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  {results.length > 0 && (
+  <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-md shadow z-50 max-h-64 overflow-y-auto">
+    {results.map((user) => (
+      <div
+        key={user._id}
+        onClick={() => handleChat(user)}
+        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+      >
+        <img
+          src={user.profilepic || "/default.png"}
+          alt={user.fullName}
+          className="w-10 h-10 rounded-full object-cover border"
+        />
+        <div className="flex-1">
+          <p className="font-medium text-sm text-gray-800">{user.fullName}</p>
+          <p className="text-xs text-gray-500 truncate">{user._id}</p>
+        </div>
+        <button
+          className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Chat
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
+
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowSearch(true)}
+                  className="text-gray-100 hover:text-blue-500"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              )}
+            </>
+          )}
+
           {authUser ? (
             <>
               <button
@@ -58,7 +151,7 @@ const Navbar = () => {
               </button>
 
               {dropdownOpen && (
-                <div className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600 absolute right-4 top-14">
+                <div className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600 absolute right-0 top-14">
                   <div className="px-4 py-3">
                     <span className="block text-sm text-gray-900 dark:text-white">
                       {authUser.fullName}

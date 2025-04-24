@@ -88,6 +88,18 @@ export const Useauthstore = create(
           set({ isUpdatingProfile: false });
         }
       },
+      getUsers: async () => {
+        set({ isUserLoading: true });
+        try {
+          const res = await axiosInstance.get("/messages/chats");
+          set({ users: res.data });
+        } catch (err) {
+          console.error("Sidebar fetch error", err);
+          set({ users: [] });
+        } finally {
+          set({ isUserLoading: false });
+        }
+      },      
 
       connectSocket: () => {
         const { authUser } = get();

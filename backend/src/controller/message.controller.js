@@ -5,21 +5,39 @@ import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 export const getUsersforSidebar = async (req, res) => {
     try {
-
-        if (!req.user) {
-            return res.status(401).json({ message: "Unauthorized - User not found" });
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized - User not found" });
+      }
+  
+      const myId = req.user._id;
+  
+      // Get messages involving the user
+      const messages = await Message.find({
+        $or: [
+          { senderId: myId },
+          { receiverId: myId }
+        ]
+      });
+  
+      const userIds = new Set();
+  
+      messages.forEach(msg => {
+        if (msg.senderId.toString() !== myId.toString()) {
+          userIds.add(msg.senderId.toString());
         }
-
-        const loggedInUserId = req.user._id;
-        console.log("Logged In User ID:", loggedInUserId); // Debug user ID
-
-        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
-        res.status(200).json(filteredUsers);
+        if (msg.receiverId.toString() !== myId.toString()) {
+          userIds.add(msg.receiverId.toString());
+        }
+      });
+  
+      const chatUsers = await User.find({ _id: { $in: [...userIds] } }).select("-password");
+  
+      res.status(200).json(chatUsers);
     } catch (error) {
-        console.error("Error in getUsersforSidebar", error.message);
-        res.status(500).json({ message: "Error in getUsersforSidebar" });
+      console.error("Error in getUsersforSidebar:", error.message);
+      res.status(500).json({ message: "Server error while loading chat users" });
     }
-};
+  };
 
 
 export const getMessage = async(req, res)=>{
