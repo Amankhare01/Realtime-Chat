@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173","https://livechat-mcnx.onrender.com"],
   credentials: true,
   exposedHeaders: ['set-cookie'] // Add this line
 }));
