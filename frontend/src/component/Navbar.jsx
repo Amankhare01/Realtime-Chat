@@ -81,7 +81,7 @@ const handleChat = (user) => {
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Search by name or ID..."
                       autoFocus
-                      className="w-40 sm:w-60 px-3 py-1.5 border text-gray-900 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-20 sm:w-60 px-3 py-1.5 border text-gray-100 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <button
                       onClick={() => {
