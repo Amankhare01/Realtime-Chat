@@ -187,3 +187,45 @@ export const checkAuth = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 }
+export const googleAuth = async (req, res) => {
+  const { email, name, picture, sub } = req.body; // coming from frontend decoded
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user
+      user = await User.create({
+        fullName: name,
+        email,
+        profilepic: picture,
+        password: sub, // Not a real password but just a placeholder
+        isGoogleUser: true,
+      });
+    }
+
+    // Generate token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    // Set cookie
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // Send response
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilepic: user.profilepic,
+    });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

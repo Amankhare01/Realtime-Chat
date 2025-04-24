@@ -30,6 +30,10 @@ app.use(cors({
   exposedHeaders: ['set-cookie'] // Add this line
 }));
 
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
 
 // Routes
 app.use("/api/auth", authRoutes);

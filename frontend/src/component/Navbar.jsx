@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Useauthstore } from "../store/Useauthstore"; // Adjust path if needed
 
@@ -7,11 +7,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    if (!isCheckingAuth && !authUser) {
-      navigate("/login");
-    }
-  }, [authUser, isCheckingAuth, navigate]);
+  // useEffect(() => {
+  //   if (!isCheckingAuth && !authUser) {
+  //     navigate("/login");
+  //   }
+  // }, [authUser, isCheckingAuth, navigate]);
   
 
   const handleLogout = async () => {

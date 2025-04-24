@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAuth, Login, Logout, Signup, updateProfile, upload } from '../controller/auth.controller.js';
+import { checkAuth, googleAuth, Login, Logout, Signup, updateProfile, upload } from '../controller/auth.controller.js';
 import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
@@ -13,4 +13,6 @@ router.post('/Logout', Logout)
 router.put('/update-profile',protectRoute,upload, updateProfile)
 
 router.get('/check',protectRoute, checkAuth)
+
+router.post("/google-login", googleAuth);
 export default router;
