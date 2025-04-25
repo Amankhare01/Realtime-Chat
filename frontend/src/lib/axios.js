@@ -1,9 +1,6 @@
-import axios from './axios'
-// utils/axios.js
+import axios from "axios";
+
 export const axiosInstance = axios.create({
-    baseURL: import.meta.env.MODE === "development"
-      ? "http://localhost:4000/api"
-      : "https://your-backend-url.onrender.com/api", // 👈 FIX THIS
+    baseURL: import.meta.env.MODE === "development" ? "http://localhost:4000/api" : "/api",
     withCredentials: true,
-  });
-  
+});

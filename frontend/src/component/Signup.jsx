@@ -5,10 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { EyeOff, Eye } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
-const BASE_URL =
-import.meta.env.MODE === "development"
-  ? "http://localhost:4000"
-  : "https://your-backend-name.onrender.com";
 
 const Signup = () => {
   const [showpassword, setShowpassword] = useState(false);
@@ -17,6 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+
   // const handleSuccess = (credentialResponse) => {
   //   console.log("Google Login successful", credentialResponse);
   //   toast.success("Google Login successful! Redirecting...", { position: "top-right" });
@@ -39,17 +36,12 @@ const Signup = () => {
       return;
     }
 
-    try { // Replace with your Render URL
-
-const response = await fetch(`${BASE_URL}/api/auth/signup`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ fullName, email, password }),
-  credentials: "include", // 👈 Very important for cookies
-});
-
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, password }),
+      });
 
       const data = await response.json();
 
