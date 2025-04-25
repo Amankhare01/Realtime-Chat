@@ -5,6 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { EyeOff, Eye } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
+const BASE_URL =
+import.meta.env.MODE === "development"
+  ? "http://localhost:4000"
+  : "https://your-backend-name.onrender.com";
 
 const Signup = () => {
   const [showpassword, setShowpassword] = useState(false);
@@ -13,10 +17,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-  const BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:4000"
-    : "https://your-backend-name.onrender.com";
   // const handleSuccess = (credentialResponse) => {
   //   console.log("Google Login successful", credentialResponse);
   //   toast.success("Google Login successful! Redirecting...", { position: "top-right" });
