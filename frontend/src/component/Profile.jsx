@@ -46,7 +46,7 @@ const Profile = () => {
             className="w-32 h-32 rounded-full object-cover mx-auto border border-gray-300"
           />
           <button
-            className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md border border-gray-300"
+            className="absolute bottom-2 right-25 bg-white p-2 rounded-full shadow-md border border-gray-300"
             onClick={() => fileInputRef.current.click()}
             disabled={isUpdatingProfile}
           >

@@ -88,44 +88,6 @@ export const Logout = (req, res) => {
     }
   };
   
-// export const updateProfile = async (req, res) => {
-//     try {
-//       const { profilepic } = req.body;
-//       const userId = req.user?._id; // Ensure `req.user` exists
-  
-//       if (!profilepic) {
-//         return res.status(400).json({ message: "Profile Pic is required" });
-//       }
-  
-//       if (!userId) {
-//         return res.status(401).json({ message: "Unauthorized" });
-//       }
-  
-//       // Upload Image to Cloudinary
-//       const uploadResponse = await cloudinary.uploader.upload(profilepic, {
-//         folder: "profile_pics",
-//         transformation: [{ width: 300, height: 300, crop: "fill" }],
-//       });
-  
-//       // Update User Profile Pic
-//       const updatedUser = await User.findByIdAndUpdate(
-//         userId,
-//         { profilePic: uploadResponse.secure_url },
-//         { new: true } // Return updated user
-//       );
-  
-//       if (!updatedUser) {
-//         return res.status(404).json({ message: "User not found" });
-//       }
-  
-//       res.status(200).json(updatedUser);
-//     } catch (error) {
-//       console.error("Error while updating Profile Pic:", error);
-//       res.status(500).json({ message: "Error while updating profile picture" });
-//     }
-//   };
-  
-  // Multer setup: Store file in memory
 
 const storage = multer.memoryStorage();
 export const upload = multer({ storage }).single("profilepic");
@@ -168,25 +130,22 @@ export const updateProfile = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
   try {
-      const token = req.cookies.jwt;
-      
-      if (!token) {
-          return res.status(401).json({ message: "Unauthorized" });
-      }
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id).select('-password');
-      
-      if (!user) {
-          return res.status(401).json({ message: "Unauthorized" });
-      }
+    const user = await User.findById(req.user._id).select("-password");
 
-      res.status(200).json({ user });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user }); // ✅ return user data
   } catch (error) {
-      console.log("Error in checkAuth:", error.message);
-      res.status(500).json({ message: "Internal server error" });
+    console.log("CheckAuth error:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 export const googleAuth = async (req, res) => {
   const { email, name, picture, sub } = req.body; // coming from frontend decoded
 
