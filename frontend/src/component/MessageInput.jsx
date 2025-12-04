@@ -92,7 +92,7 @@ const MessageInput = () => {
           <button
             type="button"
             className={`flex btn btn-circle ${
-              imagePreview ? "text-emerald-500" : "text-zinc-400"
+              imagePreview ? "text-emerald-500" : "text-zinc-800"
             }`}
             onClick={() => fileInputRef.current?.click()}
           >
