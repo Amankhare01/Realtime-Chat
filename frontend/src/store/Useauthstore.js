@@ -47,6 +47,7 @@ Useauthstore = create(
             // persist middleware handles storage clearing on set, but force remove to be safe
             localStorage.removeItem("auth-storage");
           } catch (e) {
+            console.log(e)
             /* ignore */
           }
           get().disconnectSocket();
@@ -63,6 +64,7 @@ Useauthstore = create(
           const user = res.data?.user ?? res.data;
           set({ authUser: user });
         } catch (err) {
+          console.log(err)
           // not authenticated or request failed
           set({ authUser: null });
         } finally {
